@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
+import {ActivityIndicator} from 'react-native-paper';
+import {useDispatch, useSelector} from 'react-redux';
 import ItemMovie from '../../../component/Movie/MovieItem';
 import * as actions from '../../../redux/moive/action';
-
 
 const MoviesListVideo = (props: any) => {
   const window = Dimensions.get('window');
@@ -42,7 +42,7 @@ const MoviesListVideo = (props: any) => {
     if (state.movie.allmovieHot.results) {
       return state.movie.allmovieHot.results;
     }
-    return [];
+    return false;
   });
   const detailMovie = (itemData: any) => {
     props.navigation.navigate('DETAIL', {
@@ -51,13 +51,21 @@ const MoviesListVideo = (props: any) => {
     });
   };
 
-
+  if (!data) {
+    return (
+      <ActivityIndicator
+        size="large"
+        color="red"
+        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>
       <FlatList
         key={dimensions.window.width + ''}
-        numColumns={dimensions.window.width>360 ? 3 : 2}
+        numColumns={dimensions.window.width > 360 ? 3 : 2}
         keyExtractor={(item: any, index: any) => index}
         data={data}
         renderItem={itemData => (
@@ -74,7 +82,7 @@ const MoviesListVideo = (props: any) => {
 
 export default MoviesListVideo;
 
-export const screenOption:any = (navData: any) => {
+export const screenOption: any = (navData: any) => {
   return {
     headerTitle: navData.route.params.name,
     headerTitleAlign: 'center',
