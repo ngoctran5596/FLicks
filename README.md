@@ -41,6 +41,12 @@ The following **additional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 
+https://user-images.githubusercontent.com/72117775/118618481-dbeff380-b7ed-11eb-8e30-eb580ebd656f.mp4
+
+
+
+
+
 
 
 
