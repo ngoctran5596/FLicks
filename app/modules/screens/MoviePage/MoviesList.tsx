@@ -29,7 +29,6 @@ const MoviesList = (props: Iprops) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-
   const [dimensions, setDimensions] = useState({window, screen});
   //query lấy ra tất cả movie
   const data = useSelector((state: any) => state.movie.allmovie.results);
@@ -45,7 +44,7 @@ const MoviesList = (props: Iprops) => {
 
   //dimensions  lắng nghe sự thay đổi và gọi lại onChange
   useEffect(() => {
-    Dimensions.addEventListener('change', onChange);
+    Dimensions.addEventListener('change',onChange);
     return () => {
       Dimensions.removeEventListener('change', onChange);
     };
@@ -111,7 +110,7 @@ const MoviesList = (props: Iprops) => {
       </View>
     );
   }
-  const isLandcape = dimensions.window.width === dimensions.screen.height;
+  
   return (
     <View style={styles.container}>
       <View style={styles.dropdown}>
@@ -139,8 +138,8 @@ const MoviesList = (props: Iprops) => {
       </View>
       <View style={styles.flatlist3}>
         <FlatList
-          key={isLandcape + ''}
-          numColumns={!isLandcape ? 2 : 3}
+          key={dimensions.window.width+'-'}
+          numColumns={dimensions.window.width>360 ? 3 : 2}
           keyExtractor={(item: any, index: any) => index}
           data={data}
           renderItem={(itemData: any) => (
@@ -151,7 +150,6 @@ const MoviesList = (props: Iprops) => {
               vote={itemData.item.vote_average}
             />
           )}
-          extraData={isLandcape}
         />
       </View>
     </View>
@@ -169,7 +167,7 @@ const styles = StyleSheet.create({
   dropdown: {
     flexDirection: 'row',
     width: '100%',
-    height: hp('10'),
+    height: hp('10%'),
   },
   activityindicator: {flex: 1, justifyContent: 'center', alignItems: 'center'},
   container: {
@@ -177,6 +175,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     flexDirection: 'column',
     padding: wp('2'),
+    height:'100%'
   },
   search: {
     width: '100%',
@@ -188,7 +187,7 @@ const styles = StyleSheet.create({
   },
   flatlist3: {
     width: '100%',
-    height: hp('76%'),
+    height: hp('72%'),
   },
   icon: {
     width: '20%',

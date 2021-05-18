@@ -27,7 +27,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 const AppScreen = () => {
   return (
-    <Tab.Navigator initialRouteName="MOVIE" activeColor="black" shifting={true}>
+    <Tab.Navigator initialRouteName="HOME" activeColor="black" shifting={true}>
       <Tab.Screen
         name="HOME"
         component={MovieScreen}

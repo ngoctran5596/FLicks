@@ -40,9 +40,6 @@ const MovieDetail = (props: any) => {
 
   // lấy ra 5 diễn viên dựa vào index
   const dataCastCut = dataCast?.filter((it: any, index: number) => index < 5);
-  const dataCastCutALl = dataCast?.filter(
-    (it: any, index: number) => index < 50,
-  );
 
   //lấy ra movie có  id được truyền vào
   const data = useSelector((state: any) => {

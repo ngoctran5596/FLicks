@@ -3,12 +3,7 @@ import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ItemMovie from '../../../component/Movie/MovieItem';
 import * as actions from '../../../redux/moive/action';
-interface Iprops {
-  trailer: any;
-  navigation: any;
-  route: any;
-  id: any;
-}
+
 
 const MoviesListVideo = (props: any) => {
   const window = Dimensions.get('window');
@@ -56,13 +51,13 @@ const MoviesListVideo = (props: any) => {
     });
   };
 
-  const isLoadFlatlist = dimensions.window.width === dimensions.screen.height;
+
 
   return (
     <View style={styles.container}>
       <FlatList
-        key={isLoadFlatlist + ''}
-        numColumns={isLoadFlatlist ? 3 : 2}
+        key={dimensions.window.width + ''}
+        numColumns={dimensions.window.width>360 ? 3 : 2}
         keyExtractor={(item: any, index: any) => index}
         data={data}
         renderItem={itemData => (
