@@ -56,7 +56,7 @@ const MoviesListVideo = (props: any) => {
   return (
     <View style={styles.container}>
       <FlatList
-        // key={dimensions.window.width + ''}
+        key={dimensions.window.width + ''}
         numColumns={dimensions.window.width>360 ? 3 : 2}
         keyExtractor={(item: any, index: any) => index}
         data={data}
