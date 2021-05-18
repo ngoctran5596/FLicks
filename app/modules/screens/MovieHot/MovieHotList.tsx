@@ -34,7 +34,7 @@ const MoviesListVideo = (props: any) => {
     let action = actions.movieActions.getAllMovieHot(id);
     dispatch(action);
   };
-  console.log('IDDDD: ', id);
+
   useEffect(() => {
     try {
       axiosApiCall();

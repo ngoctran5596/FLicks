@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontSize: 18,
+    textAlign:'center',
     height: '100%',
     width: '100%',
     marginTop: wp(1),

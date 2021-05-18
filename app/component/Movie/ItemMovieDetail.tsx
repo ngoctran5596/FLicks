@@ -37,7 +37,6 @@ const ItemMovieDetail = ({
   const onClickSetModal = () => {
     setIsLoadModal(prev => !prev);
   };
-  console.log('ISLOADMODAL', isLoadModal);
   return (
     <ScrollView>
       <View style={{margin: 5}}>
@@ -86,7 +85,6 @@ const ItemMovieDetail = ({
                   <FlatList
                     data={castDataAll}
                     renderItem={(itemData: any) => {
-                      console.log('itemData', itemData);
                       return (
                         <ItemModalCast
                           image={itemData.item.profile_path}
@@ -229,7 +227,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     borderRadius: 20,
-    padding: 10,
+    padding: 5,
     elevation: 2,
   },
   buttonClose: {

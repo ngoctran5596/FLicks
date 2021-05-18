@@ -85,14 +85,12 @@ export const getAllMovieType = ($action: any) => {
   return $action.pipe(
     ofType(types.GET_ALL_MOVIE_TYPE),
     mergeMap((act: any) => {
-      console.log('act MovieType', act);
       return axios
         .get(
           `https://api.themoviedb.org/3/genre/movie/list?api_key=2c4916f2a93252ac7140372c475509c6&language=en-US`,
         )
         .then((rs: any) => {
           const {data} = rs;
-          console.log('GET ALL MOVIE TYPE', data);
           return movieActions.getAllMovieTypeSuccess(data);
         })
         .catch((err: any) => {

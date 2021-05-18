@@ -44,7 +44,6 @@ const MovieDetail = (props: any) => {
     (it: any, index: number) => index < 50,
   );
 
-  console.log('dataCast', dataCast, dataCastCutALl);
   //lấy ra movie có  id được truyền vào
   const data = useSelector((state: any) => {
     try {
