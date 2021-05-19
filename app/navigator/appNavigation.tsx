@@ -4,8 +4,8 @@ import React from 'react';
 import { Image } from 'react-native';
 import 'react-native-gesture-handler';
 import { Color } from '../configs/style';
-import MovieVideoDetail from '../modules/screens/MovieHot/MovieHotType';
-import MovieVideoScreen, { screenOption as MovieHotOptions } from '../modules/screens/MovieHot/MovieHotList';
+import MovieType from '../modules/screens/MovieHot/MovieHotType';
+import MovieHotList, { screenOption as MovieHotOptions } from '../modules/screens/MovieHot/MovieHotList';
 import MovieDetailScreen, {
   screenOption as MovieDetailOption
 } from '../modules/screens/MoviePage/MovieDetail';
@@ -17,8 +17,8 @@ const Stack = createStackNavigator();
 const MyTabVideo = () => {
   return (
     <Stack.Navigator initialRouteName='TOPHOT'>
-      <Stack.Screen name="TOPHOT" component={MovieVideoDetail}  options={{headerShown:false}}/>
-      <Stack.Screen name="CATEGORY" component={MovieVideoScreen} options={MovieHotOptions} />
+      <Stack.Screen name="TOPHOT" component={MovieType}  options={{headerShown:false}}/>
+      <Stack.Screen name="CATEGORY" component={MovieHotList} options={MovieHotOptions} />
     </Stack.Navigator>
   );
 };

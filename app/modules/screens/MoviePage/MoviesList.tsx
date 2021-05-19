@@ -8,14 +8,17 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import ItemMovie from '../../../component/Movie/MovieItem';
+import {Color} from '../../../configs/style';
 import * as actions from '../../../redux/moive/action';
 
 interface Iprops {
@@ -29,10 +32,13 @@ const MoviesList = (props: Iprops) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const [page, setPage] = useState(1);
   const [dimensions, setDimensions] = useState({window, screen});
   //query lấy ra tất cả movie
   const data = useSelector((state: any) => state.movie.allmovie.results);
   const year: any = [];
+  //Đưa mảng vào items để vào dropdow
+  const [items, setItems] = useState(year);
   //lặp push vào mảng đỡ ghi bằng tay
   for (let i = 1964; i <= 2021; i++) {
     year.push({label: i.toString(), value: i.toString()});
@@ -44,14 +50,11 @@ const MoviesList = (props: Iprops) => {
 
   //dimensions  lắng nghe sự thay đổi và gọi lại onChange
   useEffect(() => {
-    Dimensions.addEventListener('change',onChange);
+    Dimensions.addEventListener('change', onChange);
     return () => {
       Dimensions.removeEventListener('change', onChange);
     };
-  }, []);
-
-  //Đưa mảng vào items để vào dropdow
-  const [items, setItems] = useState(year);
+  });
 
   //DropDownPicker các hàm cần thiết để nó hoạt động
   //tắt mở dropdow
@@ -61,7 +64,6 @@ const MoviesList = (props: Iprops) => {
 
   //setValue picker
   const setValueF = async (callback: any) => {
-    console.log(callback);
     await setValue((state: any) => {
       return callback(state);
     });
@@ -82,18 +84,25 @@ const MoviesList = (props: Iprops) => {
   //mới vào chạy 1 dispatch lấy all video về set vào data
   useEffect(() => {
     try {
-      dispatchTrailer();
+      dispatchGetAllMovie();
     } catch (error) {
       console.log('error axios', error);
     }
-  }, []);
+  }, [page]);
 
   //action action nè
-  const dispatchTrailer = () => {
-    const action = actions.movieActions.getAllMovie();
+  const dispatchGetAllMovie = () => {
+    const action = actions.movieActions.getAllMovie(page);
     dispatch(action);
   };
-
+  //Next or Back page
+  const setNumberPage = (value: any) => {
+    if (value === 'next') {
+      return setPage(page + 1);
+    } else {
+      return setPage(page - 1);
+    }
+  };
   //navigation  sang movie detail
   const detailMovie = (itemData: any) => {
     props.navigation.navigate('DETAIL', {
@@ -110,12 +119,14 @@ const MoviesList = (props: Iprops) => {
       </View>
     );
   }
-  
+  console.log('dimensions', dimensions);
+
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}>
       <View style={styles.dropdown}>
         <View style={styles.search}>
-          <View style={{width: '80%'}}>
+          <View style={{width: '80%', height: '100%'}}>
             <DropDownPicker
               open={open}
               value={value}
@@ -136,10 +147,10 @@ const MoviesList = (props: Iprops) => {
           </View>
         </View>
       </View>
-      <View style={styles.flatlist3}>
+      <View style={styles.flatlist}>
         <FlatList
-          key={dimensions.window.width+'-'}
-          numColumns={dimensions.window.width>360 ? 3 : 2}
+          key={dimensions.window.width + '-'}
+          numColumns={dimensions.window.width > 360 ? 3 : 2}
           keyExtractor={(item: any, index: any) => index}
           data={data}
           renderItem={(itemData: any) => (
@@ -151,6 +162,20 @@ const MoviesList = (props: Iprops) => {
             />
           )}
         />
+      </View>
+      <View style={styles.btPage}>
+        <TouchableOpacity
+          disabled={page === 1 ? true : false}
+          style={styles.itemPage}
+          onPress={() => setNumberPage('back')}>
+          <Text>{'|<'}</Text>
+        </TouchableOpacity>
+        <Text style={styles.textNumberPage}>{page}</Text>
+        <TouchableOpacity
+          style={styles.itemPage}
+          onPress={() => setNumberPage('next')}>
+          <Text>{'>|'}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -164,38 +189,62 @@ export const screenOptions = (navData: any) => {
 };
 
 const styles = StyleSheet.create({
+  activityindicator: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+
+  container: {
+    width:'100%',
+    height:'100%',
+    backgroundColor: 'black',
+    flexDirection: 'column',
+    alignContent: 'center',
+  },
+
   dropdown: {
     flexDirection: 'row',
     width: '100%',
-    height: hp('10%'),
-  },
-  activityindicator: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-  container: {
-    width: '100%',
-    backgroundColor: 'black',
-    flexDirection: 'column',
-    padding: wp('2'),
-    height:'100%'
+    height: hp('9%'),
   },
   search: {
     width: '100%',
+    height: hp('8,5%'),
     flexDirection: 'row',
   },
   image: {
-    width: wp('10'),
-    height: hp('4'),
+    width: 40,
+    height: 40,
+    resizeMode: 'center',
   },
-  flatlist3: {
+  flatlist: {
     width: '100%',
-    height: hp('72%'),
+    height: hp('75%'),
   },
   icon: {
     width: '20%',
-    height: hp('8'),
-    backgroundColor: 'white',
+    height: '100%',
+    backgroundColor: '#ffffff',
     borderRadius: wp(2),
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
+  },
+  btPage: {
+    flexDirection: 'row',
+    position:'absolute',
+    bottom:0,
+    right:0
+  },
+  itemPage: {
+    backgroundColor: Color.primaryDark,
+    padding: 2,
+    borderRadius: 5,
+    marginRight: 2,
+    width: 50,
+    alignItems: 'center',
+  },
+  textNumberPage: {
+    color: Color.white,
+    padding: 5,
+    backgroundColor: 'black',
+    marginRight: 2,
   },
 });

@@ -3,6 +3,7 @@ import {movieActions, types} from './action';
 import {ofType} from 'redux-observable';
 import {mergeMap} from 'rxjs/operators';
 import axios from 'axios';
+import { config } from '../../configs/api';
 
 export const getAllMovie = ($action: any) => {
   return $action.pipe(
@@ -10,7 +11,7 @@ export const getAllMovie = ($action: any) => {
     mergeMap((act: any) => {
       return axios
         .get(
-          'https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed',
+          `${config.MOVIE_URL}/movie/popular?api_key=2c4916f2a93252ac7140372c475509c6&language=en-US&page=${act.payload ? act.payload : 1}`
         )
         .then((rs: any) => {
           const {data} = rs;
@@ -30,7 +31,7 @@ export const getAllCast = ($action: any) => {
     mergeMap((act: any) => {
       return axios
         .get(
-          `https://api.themoviedb.org/3/movie/${act.payload.id}/credits?api_key=2c4916f2a93252ac7140372c475509c6&language=en-US`,
+          `${config.MOVIE_URL}/movie/${act.payload.id}/credits?api_key=2c4916f2a93252ac7140372c475509c6&language=en-US`,
         )
         .then((rs: any) => {
           const {data} = rs;
@@ -49,7 +50,7 @@ export const getAllMovieYear = ($action: any) => {
     mergeMap((act: any) => {
       return axios
         .get(
-          `http://api.themoviedb.org/3/discover/movie?api_key=2c4916f2a93252ac7140372c475509c6&primary_release_year=${
+          `${config.MOVIE_URL}/discover/movie?api_key=2c4916f2a93252ac7140372c475509c6&primary_release_year=${
             act?.payload || 2021
           }&sort_by=revenue.desc&page=1`,
         )
@@ -69,7 +70,7 @@ export const getAllMovieHot = ($action: any) => {
     mergeMap((act: any) => {
       return axios
         .get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=2c4916f2a93252ac7140372c475509c6&with_genres=${act.payload}`,
+          `${config.MOVIE_URL}/discover/movie?api_key=2c4916f2a93252ac7140372c475509c6&with_genres=${act.payload}`,
         )
         .then((rs: any) => {
           const {data} = rs;
@@ -87,7 +88,7 @@ export const getAllMovieType = ($action: any) => {
     mergeMap((act: any) => {
       return axios
         .get(
-          `https://api.themoviedb.org/3/genre/movie/list?api_key=2c4916f2a93252ac7140372c475509c6&language=en-US`,
+          `${config.MOVIE_URL}/genre/movie/list?api_key=2c4916f2a93252ac7140372c475509c6&language=en-US`,
         )
         .then((rs: any) => {
           const {data} = rs;

@@ -10,21 +10,21 @@ const MoviesListVideo = (props: any) => {
   const screen = Dimensions.get('screen');
   const [id, setId] = useState(props.route.params.id);
   const dispatch = useDispatch();
-  const [dimensions, setDimensions] = useState({window, screen});
+  const [dimensions, setDimensions] = useState({ window, screen });
 
-  //Thay đổi màn hình là sét lại kích thước
-  const onChange = ({window, screen}: any) => {
-    setDimensions({window, screen});
+  const onChange = ({ window, screen }:any) => {
+    setDimensions({ window, screen });
   };
 
-  //dimensions  lắng nghe sự thay đổi và gọi lại onChange
   useEffect(() => {
-    Dimensions.addEventListener('change', onChange);
+    Dimensions.addEventListener("change", onChange);
     return () => {
-      Dimensions.removeEventListener('change', onChange);
+      Dimensions.removeEventListener("change", onChange);
     };
-  }, []);
+  });
 
+  //dimensions  lắng nghe sự thay đổi và gọi lại onChange
+  Dimensions.addEventListener('change', onChange);
   const axiosApiCall = async () => {
     let action = actions.movieActions.getAllMovieHot(id);
     dispatch(action);
@@ -53,11 +53,7 @@ const MoviesListVideo = (props: any) => {
 
   if (!data) {
     return (
-      <ActivityIndicator
-        size="large"
-        color="red"
-        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-      />
+      <ActivityIndicator size="large" color="red" style={styles.activity} />
     );
   }
 
@@ -96,4 +92,5 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'black',
   },
+  activity: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 });

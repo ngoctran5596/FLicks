@@ -20,7 +20,7 @@ export const types = {
 const action = (type:string,payload:any)=>({type,payload});
 
 export const movieActions ={
-    getAllMovie : ()=>action(types.GET_ALL_MOVIE,[]),
+    getAllMovie : (payload:any)=>action(types.GET_ALL_MOVIE,payload),
     getAllMovieSuccess: (payload:any)=>action(types.GET_ALL_MOVIE_SUCCESS,payload),
     getAllMovieFailure: (payload:any)=> action(types.GET_ALL_MOVIE_FAILURE,payload),
     getAllCast: (payload:any)=> action(types.GET_ALL_CAST,payload),
